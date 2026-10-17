@@ -1,43 +1,57 @@
-# Telecom Operations for Claude Code: operating instructions
+# Telecom Operations for Claude Code
 
-This file is the brain. Claude Code reads it at the start of every session. It says who this is for, how work gets done, and the one right way to do each recurring job.
-
-## Who this is for
-
-- **Business:** [YOUR BUSINESS]
-- **Operator:** [YOUR NAME], [your role]
-- **What matters most:** [the one or two outcomes you care about]
-
-Fill this in once. A worker with context knows. A worker without it guesses.
+This is an internal telecom service desk for a business connectivity reseller or a team managing customer circuits. Read the records before acting. All sample businesses and carriers are fictional.
 
 ## How to work
 
-1. **Take a brief, not a script.** The operator describes the outcome. You run the right command and present the answer.
-2. **Read before you write.** Before drafting anything about a record, read its full history first.
-3. **Plain language.** Short sentences. No filler. Numbers in tables.
-4. **Silent success, loud problems.** No play-by-play. Say what broke and what you did about it.
-5. **Stop at the line.** Anything that sends, deletes, or faces a customer waits for a yes in this session.
+Use scripts/telecom.mjs for records. Confirm DATA_DIR or DATABASE_URL before work. The demo uses .data/demo; a fresh business database starts with migrations only, without the seed. Read docs/cli.md for flags and record files. Read docs/compliance.md before interpreting record checks.
 
-## Routing table: one right way for each recurring job
-
-| When the operator asks for... | Use this |
+| When the operator asks | Use |
 |---|---|
-| <!-- TODO(author): one row per slash command --> | `/...` |
+| Read the customer accounts and their owners | /accounts |
+| Read the service locations | /sites |
+| Read the service inventory | /services |
+| Review move, add, change and disconnect orders | /order-book |
+| Review contracts expiring within 60 days and expired active services | /renewals |
+| Review monthly charges less carrier costs by currency | /margins |
+| Prepare the carrier follow-up list | /carrier-chase |
+| Find overdue changes, carrier tasks and retention reviews | /attention |
+| Check service accuracy, retention review dates and missing carrier references | /compliance |
+| Review open changes by owner | /workload |
+| Read the recorded change history | /history |
+| Read one service and its orders, tasks and notes | /service |
+| Answer ten cross-record questions | /insights |
+| Add an account, site, service, order or carrier task | /add |
+| Record a service note | /log |
+| Record an accuracy check already performed | /verify-service |
+| Record a reasoned retention review | /review-retention |
+| Record customer authorisation already received | /authorise-order |
+| Record carrier task completion with evidence | /complete-task |
+| Record a confirmed service change | /complete-order |
+| Cancel a local change request | /cancel-order |
+| Import a mapped Salesforce asset report | /import |
+| Export every record and source row | /export |
+| Draft the Monday operations review | /weekly-review |
+| Draft an internal change working paper | /draft-change |
+| Render the read-only dashboards | /view |
+| Render service schedules, change papers and renewal briefs | /documents |
+| Make the fields and process fit the business | /customise |
+| Add a read-only report for a new question | /new-view |
 
-If an ask fits nothing here, run the CLI directly (`npm run <cli> -- --help`) and then propose a new command for it.
+## Rules
 
-## Hard rules
+- Never send email, messages, carrier instructions or network commands. Drafts stay in drafts/.
+- Record authorisation and completion only from evidence the operator supplies. A typed actor is not authenticated identity.
+- Completing an order updates the local service register. It never proves that a network changed.
+- Preserve source rows, identifiers, currencies and existing history. Never guess which ambiguous record was meant.
+- Use one transaction for mutations. Do not remove gates to make a test pass.
+- Do not delete real records or apply migrations to the real database without the operator's explicit instruction.
+- Do not collect call records, message content, emergency location, card data or credentials here.
+- Export and back up before customisation. Verify access, backups and jurisdiction rules before shared use.
+- Do not claim the free desk replaces billing, provisioning, routing, field dispatch or subscriber portals.
 
-- Never send email or messages from here. Draft to `drafts/`, a person sends.
-- Never delete records without an explicit yes in this session. Prefer marking closed or archived.
-- Never invent a record. If a name is ambiguous, list the candidates and ask.
-- The database is the source of truth. If the answer is not in it, say so.
+## Working on the code
 
-## Where things live
+Keep main. Run npm test and npm run demo after domain changes. CI tests Node 20 and 22 on Windows and Linux and PostgreSQL 17. Source data, .env files, reports and drafts stay out of git. All amounts are integer cents and margins remain separated by currency.
 
-- `scripts/` the CLI. `scripts/lib/db.mjs` picks `DATABASE_URL` (Postgres, Supabase) or the embedded database in `.data/`.
-- `supabase/migrations/` the schema, plain SQL. `npm run migrate` applies it.
-- `.claude/commands/` the slash commands. Add one every time the same ask comes twice.
-- `docs/` the thesis and the guide for moving off Salesforce Communications Cloud.
-
-Built by Enterprise DNA. Installed and run for you as part of Omni: https://enterprisedna.co/omni/instead-of/salesforce-communications-cloud
+Omni by Enterprise DNA: https://enterprisedna.co/omni/book?offer=replace-software&utm_campaign=salesforce-communications-cloud&utm_medium=instructions

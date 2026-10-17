@@ -1,13 +1,46 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Telecom Operations for Claude Code: what needs attention, rendered by npm run view",
+    "title": "The telecom operations week",
+    "subtitle": "Read-only review. No carrier instructions are sent.",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Open service changes",
+        "sql": "select * from order_book order by due_on,code"
+      },
+      {
+        "title": "Carrier follow-ups",
+        "sql": "select * from carrier_queue order by due_on"
+      },
+      {
+        "title": "Renewals within 60 days or expired",
+        "sql": "select code,account,site,contract_end,days_to_expiry from renewal_queue order by contract_end"
+      }
+    ]
+  },
+  {
+    "name": "commercial",
+    "title": "Service costs and renewals",
+    "sections": [
+      {
+        "title": "Monthly margin by currency",
+        "note": "Contracted charge less recorded carrier cost. Excludes tax, usage, overhead and unrecorded charges. No currency conversion.",
+        "sql": "select * from monthly_margin order by currency,account"
+      },
+      {
+        "title": "Negative margin services",
+        "sql": "select code,account,currency,charge_cents,cost_cents,margin_cents from service_register where status='active' and margin_cents<0"
+      }
+    ]
+  },
+  {
+    "name": "record-review",
+    "title": "Record review queue",
+    "sections": [
+      {
+        "title": "Accuracy, retention and carrier references",
+        "note": "Record checks support review; they do not certify legal compliance.",
+        "sql": "select * from record_checks order by code"
       }
     ]
   }

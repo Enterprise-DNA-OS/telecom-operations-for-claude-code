@@ -1,0 +1,28 @@
+{
+  "columns": {
+    "code": "Asset ID",
+    "name": "Asset Name",
+    "account_code": "Account Number",
+    "account_name": "Account Name",
+    "account_owner": "Account Owner",
+    "site_code": "Site Code",
+    "site_name": "Site Name",
+    "address": "Site Address",
+    "kind": "Service Type",
+    "carrier": "Carrier",
+    "carrier_reference": "Carrier Reference",
+    "status": "Status",
+    "currency": "Currency",
+    "charge": "Monthly Charge",
+    "cost": "Monthly Cost",
+    "started_on": "Start Date",
+    "contract_end": "Contract End"
+  },
+  "review_due": "2027-01-01",
+  "status_values": {
+    "Installed": "active"
+  },
+  "kind_values": {
+    "Fibre": "fibre"
+  }
+}

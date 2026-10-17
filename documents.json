@@ -1,11 +1,61 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
-    "file": "name",
+    "name": "service-schedule",
+    "title": "Customer service schedule",
+    "for_each": "select id,code from accounts order by code",
+    "file": "code",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Customer",
+        "sql": "select code,name,owner from accounts where id=$1"
+      },
+      {
+        "title": "Service records",
+        "note": "Internal working schedule. Check contract and carrier records before sharing. Monthly figures exclude tax and usage.",
+        "sql": "select r.* from service_register r join services s on s.id=r.id where s.account_id=$1 order by r.code"
+      }
+    ]
+  },
+  {
+    "name": "change-paper",
+    "title": "Service change working paper",
+    "for_each": "select id,code from change_orders order by code",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Recorded customer instruction and completion",
+        "note": "Draft working paper only. Not a carrier instruction or evidence of a live network change.",
+        "sql": "select * from change_orders where id=$1"
+      },
+      {
+        "title": "Service",
+        "sql": "select r.* from service_register r join change_orders o on o.service_id=r.id where o.id=$1"
+      },
+      {
+        "title": "Carrier task evidence",
+        "sql": "select title,owner,due_on,status,closed_on,evidence from carrier_tasks where order_id=$1 order by due_on"
+      }
+    ]
+  },
+  {
+    "name": "renewal-brief",
+    "title": "Service renewal brief",
+    "for_each": "select id,code from services where status='active' order by code",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Current service terms",
+        "note": "Internal review, not an automatic renewal or quote. Confirm current terms with the customer and carrier.",
+        "sql": "select * from service_register where id=$1"
+      },
+      {
+        "title": "Record checks",
+        "sql": "select * from record_checks where id=$1"
+      },
+      {
+        "title": "Change history",
+        "sql": "select code,kind,status,due_on,authorisation_reference,completion_reference from change_orders where service_id=$1 order by requested_on"
+      }
     ]
   }
 ]

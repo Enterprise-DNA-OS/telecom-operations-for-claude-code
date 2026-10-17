@@ -1,5 +1,31 @@
-# Slash commands
+# Recurring work
 
-One file per recurring job. Each command tells Claude Code exactly which CLI command to run and how to present the result, so the operator never re-explains the job.
-
-Add a command every time the same ask comes twice. Frontmatter needs a `description:` line. The body is the brief.
+- /accounts: Read the customer accounts and their owners.
+- /sites: Read the service locations.
+- /services: Read the service inventory.
+- /order-book: Review move, add, change and disconnect orders.
+- /renewals: Review contracts expiring within 60 days and expired active services.
+- /margins: Review monthly charges less carrier costs by currency.
+- /carrier-chase: Prepare the carrier follow-up list.
+- /attention: Find overdue changes, carrier tasks and retention reviews.
+- /compliance: Check service accuracy, retention review dates and missing carrier references.
+- /workload: Review open changes by owner.
+- /history: Read the recorded change history.
+- /service: Read one service and its orders, tasks and notes.
+- /insights: Answer ten cross-record questions.
+- /add: Add an account, site, service, order or carrier task.
+- /log: Record a service note.
+- /verify-service: Record an accuracy check already performed.
+- /review-retention: Record a reasoned retention review.
+- /authorise-order: Record customer authorisation already received.
+- /complete-task: Record carrier task completion with evidence.
+- /complete-order: Record a confirmed service change.
+- /cancel-order: Cancel a local change request.
+- /import: Import a mapped Salesforce asset report.
+- /export: Export every record and source row.
+- /weekly-review: Draft the Monday operations review.
+- /draft-change: Draft an internal change working paper.
+- /view: Render the read-only dashboards.
+- /documents: Render service schedules, change papers and renewal briefs.
+- /customise: Make the fields and process fit the business.
+- /new-view: Add a read-only report for a new question.

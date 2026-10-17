@@ -12,7 +12,7 @@
       {
         "title": "Service records",
         "note": "Internal working schedule. Check contract and carrier records before sharing. Monthly figures exclude tax and usage.",
-        "sql": "select r.* from service_register r join services s on s.id=r.id where s.account_id=$1 order by r.code"
+        "sql": "select r.code,r.site,r.name,r.carrier,r.carrier_reference,r.status,r.currency,r.charge_cents,r.cost_cents,r.contract_end from service_register r join services s on s.id=r.id where s.account_id=$1 order by r.code"
       }
     ]
   },
@@ -25,11 +25,11 @@
       {
         "title": "Recorded customer instruction and completion",
         "note": "Draft working paper only. Not a carrier instruction or evidence of a live network change.",
-        "sql": "select * from change_orders where id=$1"
+        "sql": "select code,kind,owner,status,requested_on,due_on,authorised_on,authorisation_reference,completed_on,completion_reference,cancellation_reason from change_orders where id=$1"
       },
       {
         "title": "Service",
-        "sql": "select r.* from service_register r join change_orders o on o.service_id=r.id where o.id=$1"
+        "sql": "select r.code,r.account,r.site,r.name,r.carrier,r.carrier_reference,r.status,r.currency,r.charge_cents,r.cost_cents,r.contract_end from service_register r join change_orders o on o.service_id=r.id where o.id=$1"
       },
       {
         "title": "Carrier task evidence",
@@ -46,11 +46,11 @@
       {
         "title": "Current service terms",
         "note": "Internal review, not an automatic renewal or quote. Confirm current terms with the customer and carrier.",
-        "sql": "select * from service_register where id=$1"
+        "sql": "select code,account,site,name,carrier,carrier_reference,currency,charge_cents,cost_cents,margin_cents,contract_end from service_register where id=$1"
       },
       {
         "title": "Record checks",
-        "sql": "select * from record_checks where id=$1"
+        "sql": "select code,status,verified_on,review_due,accuracy_check_missing,retention_review_due,carrier_reference_missing from record_checks where id=$1"
       },
       {
         "title": "Change history",

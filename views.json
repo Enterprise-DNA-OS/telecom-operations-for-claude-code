@@ -6,11 +6,11 @@
     "sections": [
       {
         "title": "Open service changes",
-        "sql": "select * from order_book order by due_on,code"
+        "sql": "select code,service,kind,owner,status,due_on,days_overdue,open_tasks from order_book order by due_on,code"
       },
       {
         "title": "Carrier follow-ups",
-        "sql": "select * from carrier_queue order by due_on"
+        "sql": "select change_order,service,carrier,title,owner,due_on,days_overdue from carrier_queue order by due_on"
       },
       {
         "title": "Renewals within 60 days or expired",
@@ -40,7 +40,7 @@
       {
         "title": "Accuracy, retention and carrier references",
         "note": "Record checks support review; they do not certify legal compliance.",
-        "sql": "select * from record_checks order by code"
+        "sql": "select code,status,verified_on,review_due,accuracy_check_missing,retention_review_due,carrier_reference_missing from record_checks order by code"
       }
     ]
   }
